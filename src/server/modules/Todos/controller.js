@@ -9,11 +9,74 @@ class TodosController extends RootController {
         super();
         this.router.post('/api/todos/find', this.hanldeFindTodos.bind(this));
         this.router.post('/api/todos/add-todo', this.hanldeAddTodo.bind(this));
+        this.router.post('/api/todos/update-todo', this.handleUpdateTodo.bind(this));
         this.router.post('/api/todos/remove-todo', this.handleRemoveTodo.bind(this));
         return this.router;
     }
 
+    async handleUpdateTodo(req, res, next) {
+
+        try {
+            const { _id } = req.body;
+            const data = {
+                ...req.body
+            }
+            const result = await Todos.findByIdAndUpdate(_id, data);
+
+            if (result) {
+                return res.json({
+                    payload: result,
+                    msg: 'Update todo success',
+                    error: false
+                })
+            }
+            else {
+                return res.json({
+                    payload: null,
+                    msg: 'Update todo fail',
+                    error: true
+                })
+            }
+        } catch (error) {
+            return res.json({
+                payload: null,
+                msg: 'Update todo fail',
+                error: true
+            })
+        }
+
+
+
+    }
+
     async handleRemoveTodo(req, res, next) {
+
+        try {
+            const { _id } = req.body;
+     
+            const result = await Todos.findByIdAndDelete(_id);
+
+            if (result) {
+                return res.json({
+                    payload: result,
+                    msg: 'Remove todo success',
+                    error: false
+                })
+            }
+            else {
+                return res.json({
+                    payload: null,
+                    msg: 'Remove todo fail',
+                    error: true
+                })
+            }
+        } catch (error) {
+            return res.json({
+                payload: null,
+                msg: 'Remove todo fail',
+                error: true
+            })
+        }
 
     }
 
@@ -32,21 +95,21 @@ class TodosController extends RootController {
                     payload: result,
                     msg: 'Add todo success',
                     error: false
-                }) 
+                })
             }
             else {
                 return res.json({
                     payload: null,
                     msg: 'Add todo fail',
                     error: true
-                }) 
+                })
             }
         } catch (error) {
             return res.json({
                 payload: null,
                 msg: 'Add todo fail',
                 error: true
-            }) 
+            })
         }
     }
 
