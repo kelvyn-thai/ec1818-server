@@ -17,6 +17,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'));
 app.use(cors());
 app.use(routers);
+app.get('/', (req, res, next)=> {
+    res.send(`<div>Hello. I am a server to fetch API! (^O^)`)
+})
 preloader.initApp();
 
 
