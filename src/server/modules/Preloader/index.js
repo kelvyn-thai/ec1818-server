@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const CONSTANT = require('../../constant');
+const CONSTANT = require('../../shared/constant');
 
 function initConnectMongoDB() {
     mongoose.connect(CONSTANT.DB, {

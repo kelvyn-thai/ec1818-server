@@ -11,8 +11,42 @@ class TodosController extends RootController {
         this.router.post('/api/todos/add-todo', this.hanldeAddTodo.bind(this));
         this.router.post('/api/todos/update-todo', this.handleUpdateTodo.bind(this));
         this.router.post('/api/todos/remove-todo', this.handleRemoveTodo.bind(this));
+        this.router.post('/api/todos/todo-details', this.handleGetTodoDetails.bind(this));
         return this.router;
     }
+
+    async handleGetTodoDetails(req,res, next){
+
+        try {
+            
+            const { id } = req.body || '';
+
+            const doc = await Todos.findById(id);
+
+            if (doc) {
+                return res.json({
+                    payload: doc,
+                    msg: 'Get todo details success',
+                    error: false
+                })
+            }
+            else {
+                return res.json({
+                    payload: null,
+                    msg: 'Get todo details fail',
+                    error: true
+                })
+            }
+
+        } catch (error) {
+            return res.json({
+                payload: null,
+                msg: 'Get todo details fail',
+                error: true
+            })
+        }
+    }
+
 
     async handleUpdateTodo(req, res, next) {
 
